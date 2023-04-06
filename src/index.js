@@ -1,4 +1,8 @@
 import "./style.css";
 import Node from "./node.js";
 
-console.log("Hello World");
+class Tree {
+  constructor(array) {
+    this.root = this.buildTree(array);
+  }
+}
