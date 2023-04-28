@@ -27,87 +27,103 @@ class Tree {
     root.right = this.buildTree(array, mid + 1, end);
     return root;
   }
+
+  insert(value, root = this.root) {
+    if (root == null) {
+      return (root = new node(value));
+    }
+
+    if (root.data < value) {
+      root.right = this.insert(value, root.right);
+    } else {
+      root.left = this.insert(value, root.left);
+    }
+    prettyPrint(this.root);
+    return root;
+  }
+
+  delete(value, root = this.root) {
+    if (root == null) {
+      return root;
+    }
+
+    if (root.data > value) {
+      root.left = this.delete(value, root.left);
+    } else if (root.data < value) {
+      root.right = this.delete(value, root.right);
+    } else {
+      if (root.left == null) {
+        return root.right;
+      } if (root.right == null) {
+        return root.left;
+      }
+      root.data = minValue(root);
+      root.right = this.delete(root.right, root.data);
+    }
+    prettyPrint(this.root);
+    return root;
+  }
+
+  find(value) {
+    if (!this.root) {
+      return false;
+    }
+    let tree = this.root;
+
+    while (tree) {
+      if (value < tree.value) {
+        tree = tree.left;
+      } else if (value > tree.value) {
+        tree = tree.right;
+      } else if (value === tree.value) {
+        return tree;
+      }
+    }
+    return false;
+  }
+
+  levelorder() {
+
+  }
+
+  inorder() {
+
+  }
+
+  preorder() {
+
+  }
+
+  postorder() {
+
+  }
+
+  height(node) {
+
+  }
+
+  depth(node) {
+
+  }
+
+  isBalanced() {
+
+  }
+
+  rebalance() {
+
+  }
 }
 
-//   insert(value) {
-//     const newNode = new node(value);
-//     if (!this.root) {
-//       this.root = newNode;
-//       return this;
-//     }
-//     let tree = this.root;
+function minValue(root) {
+  let min = root.data;
+  while (root != null) {
+    min = root.data;
+    root = root.left;
+  }
+  return min;
+}
 
-//     while (true) {
-//       if (value < tree.value) {
-//         if (!tree.left) {
-//           tree.left = newNode;
-//           return this;
-//         }
-//         tree = tree.left;
-//       } else {
-//         if (!tree.right) {
-//           tree.right = newNode;
-//           return this;
-//         }
-//         tree = tree.right;
-//       }
-//     }
-//     return this;
-//   }
-
-//   delete(value) {
-
-//   }
-
-//   find(value) {
-//     if (!this.root) {
-//       return false;
-//     }
-//     let tree = this.root;
-
-//     while (tree) {
-//       if (value < tree.value) {
-//         tree = tree.left;
-//       } else if (value > tree.value) {
-//         tree = tree.right;
-//       } else if (value === tree.value) {
-//         return tree;
-//       }
-//     }
-//     return false;
-//   }
-
-//   levelorder() {
-
-//   }
-
-//   inorder() {
-
-//   }
-
-//   preorder() {
-
-//   }
-
-//   postorder() {
-
-//   }
-
-//   height(node) {
-
-//   }
-
-//   depth(node) {
-
-//   }
-
-//   isBalanced() {
-
-//   }
-
-//   rebalance() {
-
-//   }
-// }
 const testInputArray = [1, 2, 3, 4, 5, 6, 7];
 const balancedBST = new Tree(testInputArray);
+balancedBST.delete(4);
