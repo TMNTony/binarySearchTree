@@ -42,71 +42,100 @@ class Tree {
     return root;
   }
 
-  delete(value, root = this.root) {
-    if (root == null) {
+  minValue(root) {
+    if (!root.left) {
+      return root.data;
+    }
+    return this.minValue(root.left);
+  }
+
+  maxValue(root) {
+    if (!root.right) {
+      return root.data;
+    }
+    return this.maxValue(root.right);
+  }
+
+  delete(value) {
+    this.root = this.deleteNode(this.root, value);
+    prettyPrint(this.root);
+  }
+
+  deleteNode(root, value) {
+    if (root === null) {
       return root;
     }
-
-    if (root.data > value) {
-      root.left = this.delete(value, root.left);
-    } else if (root.data < value) {
-      root.right = this.delete(value, root.right);
+    if (value < root.data) {
+      root.left = this.deleteNode(root.left, value);
+    } else if (value > root.data) {
+      root.right = this.deleteNode(root.right, value);
     } else {
-      if (root.left == null) {
+      if (!root.left && !root.right) {
+        return null;
+      }
+      if (!root.left) {
         return root.right;
-      } if (root.right == null) {
+      } if (!root.right) {
         return root.left;
       }
-      root.data = minValue(root);
-      root.right = this.delete(root.right, root.data);
+      root.data = this.minValue(root.right);
+      root.right = this.deleteNode(root.right, root.data);
+    }
+    return root;
+  }
+
+  find(value, root = this.root) {
+    if (root == null) return false;
+
+    if (root.data === value) return root;
+
+    if (root.data > value) {
+      return this.find(value, root.left);
+    } if (root.data < value) {
+      return this.find(value, root.right);
     }
     prettyPrint(this.root);
     return root;
   }
 
-  find(value) {
-    if (!this.root) {
-      return false;
+  levelorder(root = this.root) {
+    const queue = [];
+    const result = [];
+
+    if (root === null) return;
+
+    queue.push(root);
+
+    while (queue.length > 0) {
+      const current = queue.shift(root);
+      result.push(current.data);
+
+      if (current.left !== null) queue.push(current.left);
+      if (current.right !== null) queue.push(current.right);
     }
-    let tree = this.root;
-
-    while (tree) {
-      if (value < tree.value) {
-        tree = tree.left;
-      } else if (value > tree.value) {
-        tree = tree.right;
-      } else if (value === tree.value) {
-        return tree;
-      }
-    }
-    return false;
   }
 
-  levelorder() {
+  inorder(root = this.root) {
 
   }
 
-  inorder() {
+  preorder(root = this.root) {
 
   }
 
-  preorder() {
+  postorder(root = this.root) {
 
   }
 
-  postorder() {
+  height(root = this.root) {
 
   }
 
-  height(node) {
+  depth(nodeVal, root = this.root, edgeCount = 0) {
 
   }
 
-  depth(node) {
-
-  }
-
-  isBalanced() {
+  isBalanced(root = this.root) {
 
   }
 
@@ -115,15 +144,6 @@ class Tree {
   }
 }
 
-function minValue(root) {
-  let min = root.data;
-  while (root != null) {
-    min = root.data;
-    root = root.left;
-  }
-  return min;
-}
-
 const testInputArray = [1, 2, 3, 4, 5, 6, 7];
 const balancedBST = new Tree(testInputArray);
-balancedBST.delete(4);
+balancedBST.find(2);
