@@ -14,6 +14,9 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 class Tree {
   constructor(array) {
     this.root = this.buildTree(array, 0, array.length - 1);
+    this.preOrderData = [];
+    this.inOrderData = [];
+    this.postOrderData = [];
     prettyPrint(this.root);
   }
 
@@ -102,7 +105,7 @@ class Tree {
     const queue = [];
     const result = [];
 
-    if (root === null) return;
+    if (root == null) return;
 
     queue.push(root);
 
@@ -113,10 +116,24 @@ class Tree {
       if (current.left !== null) queue.push(current.left);
       if (current.right !== null) queue.push(current.right);
     }
+    console.log(`level order ${result}`);
   }
 
   inorder(root = this.root) {
+    if (root == null) return;
 
+    if (root.left !== null) {
+      this.inorder(root.left);
+    }
+
+    if (root.data !== undefined) {
+      this.inOrderData.push(root.data);
+    }
+
+    if (root.right !== null) {
+      this.inorder(root.right);
+    }
+    console.log(`in order ${result}`);
   }
 
   preorder(root = this.root) {
@@ -147,3 +164,4 @@ class Tree {
 const testInputArray = [1, 2, 3, 4, 5, 6, 7];
 const balancedBST = new Tree(testInputArray);
 balancedBST.find(2);
+balancedBST.levelorder();
