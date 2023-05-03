@@ -160,6 +160,18 @@ class Tree {
   rebalance() {
 
   }
+
+  search(root = root.this, value) {
+    if (!root) {
+      return false;
+    }
+    if (root.data === value) {
+      return true;
+    } if (value < root.data) {
+      return this.search(root.left, value);
+    }
+    return this.search(root.right, value);
+  }
 }
 
 const testInputArray = [1, 2, 4, 5, 6, 7, 8, 9];
