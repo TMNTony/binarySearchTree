@@ -149,8 +149,14 @@ class Tree {
     return Math.max(leftHeight, rightHeight) + 1;
   }
 
-  depth(nodeVal, root = this.root, edgeCount = 0) {
+  depth(nodeVal, root = this.root, edgeCount = 1) {
+    if (root === null) return;
+    if (root.data === nodeVal) return edgeCount;
 
+    if (root.data < nodeVal) {
+      return this.depth(nodeVal, root.right, (edgeCount + 1));
+    }
+    return this.depth(nodeVal, root.left, (edgeCount + 1));
   }
 
   isBalanced(root = this.root) {
@@ -182,3 +188,4 @@ balancedBST.levelorder();
 // balancedBST.preorder();
 balancedBST.postorder();
 console.log("Tree Height...", balancedBST.height());
+console.log("Tree Depth...", balancedBST.depth(9));
