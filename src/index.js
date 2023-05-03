@@ -141,7 +141,12 @@ class Tree {
   }
 
   height(root = this.root) {
-
+    if (!root) {
+      return 0;
+    }
+    const leftHeight = this.height(root.left);
+    const rightHeight = this.height(root.right);
+    return Math.max(leftHeight, rightHeight) + 1;
   }
 
   depth(nodeVal, root = this.root, edgeCount = 0) {
@@ -157,10 +162,11 @@ class Tree {
   }
 }
 
-const testInputArray = [1, 2, 4, 5, 6, 7, 8];
+const testInputArray = [1, 2, 4, 5, 6, 7, 8, 9];
 const balancedBST = new Tree(testInputArray);
 balancedBST.find(2);
 balancedBST.levelorder();
 // balancedBST.inorder();
 // balancedBST.preorder();
 balancedBST.postorder();
+console.log("Tree Height...", balancedBST.height());
